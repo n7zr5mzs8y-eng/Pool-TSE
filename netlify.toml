@@ -1,0 +1,60 @@
+# Proxy pour contourner le blocage CORS + anti-bot (403) des domaines LNH/PuckPedia.
+# Ces requêtes passent maintenant par une Netlify Function (netlify/functions/px.js)
+# qui ajoute des en-têtes de navigateur réalistes avant de relayer vers le vrai site.
+
+# IMPORTANT : indique explicitement à Netlify où se trouve le dossier des fonctions.
+# Sans cette section, un dépôt manuel (glisser-déposer) peut ignorer le dossier
+# netlify/functions et la fonction "px" n'est jamais créée.
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/nhl/*"
+  to = "/.netlify/functions/px/nhl/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/pp/*"
+  to = "/.netlify/functions/px/pp/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/search/*"
+  to = "/.netlify/functions/px/search/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/nhlweb/*"
+  to = "/.netlify/functions/px/nhlweb/:splat"
+  status = 200
+  force = true
+
+# Stockage de la synchro du pool : hébergé directement chez Netlify
+# (Netlify Blobs), plus fiable que les services externes qui bloquaient
+# les requêtes ou exigeaient une clé API.
+[[redirects]]
+  from = "/bin"
+  to = "/.netlify/functions/sync/bin"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/bin/*"
+  to = "/.netlify/functions/sync/bin/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/blob"
+  to = "/.netlify/functions/sync/blob"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/blob/*"
+  to = "/.netlify/functions/sync/blob/:splat"
+  status = 200
+  force = true
