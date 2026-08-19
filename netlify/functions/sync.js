@@ -24,7 +24,12 @@ exports.handler = async (event) => {
     const parts = p.split("/").filter(Boolean);
     const id = parts[1] || "";
 
-    const store = getStore({ name: "pool-sync", consistency: "strong" });
+    const store = getStore({
+      name: "pool-sync",
+      consistency: "strong",
+      siteID: process.env.BLOBS_SITE_ID,
+      token: process.env.BLOBS_TOKEN,
+    });
     const method = event.httpMethod || "GET";
 
     if (method === "POST") {
